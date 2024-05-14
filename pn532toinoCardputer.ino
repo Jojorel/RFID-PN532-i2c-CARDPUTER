@@ -6,19 +6,19 @@
 #include M5Cardputer.h
 
 
-PN532_I2C pn532(Wire);   Create PN532 instance.  创建PN532实例
+PN532_I2C pn532(Wire);   //Create PN532 instance.  创建PN532实例
 PN532 nfc(pn532);
 
 void setup() {
-    M5.begin();              Init M5Stack.  初始化M5Stack
-    M5.Power.begin();        Init power  初始化电源模块
-    M5.Lcd.setTextSize(1);   Set the text size to 2.  设置文字大小为2
-    Wire.begin();   Wire init, adding the I2C bus.  Wire初始化, 加入i2c总线
+    M5.begin();             // Init M5Stack. 
+    M5.Power.begin();       // Init power  
+    M5.Lcd.setTextSize(1);   //Set the text size to 1.  
+    Wire.begin();  // Wire init, adding the I2C bus. 
     pn532.begin();
-    pn532.wakeup();   Init PN532.  初始化 PN532
+    pn532.wakeup();  // Init PN532
     Serial.begin(115200);
     nfc.begin();
-  Verifica a conexao do modulo PN532
+  //Verifica a conexao do modulo PN532
     uint32_t versiondata = nfc.getFirmwareVersion();
 
   if (! versiondata)
@@ -31,15 +31,15 @@ void setup() {
 
 
     M5.Lcd.setRotation(1);
-  Conexao ok, mostra informacoes do firmware
+ // Conexao ok, mostra informacoes do firmware
     M5.Lcd.print(Found chip PN5); M5.Lcd.println((versiondata  24) & 0xFF, HEX);
     M5.Lcd.print(Firmware verion ); M5.Lcd.print((versiondata  16) & 0xFF, DEC);
     M5.Lcd.print('.'); M5.Lcd.println((versiondata  8) & 0xFF, DEC);
-   Set the max number of retry attempts to read from a card
-   This prevents us from waiting forever for a card, which is
+  // Set the max number of retry attempts to read from a card
+  // This prevents us from waiting forever for a card, which is
    the default behaviour of the PN532.
     nfc.setPassiveActivationRetries(0xFF);
-   configure board to read RFID tags
+ //  configure board to read RFID tags
     nfc.SAMConfig();
     M5.Lcd.println(Waiting Card...);
     M5.Lcd.println();
@@ -48,11 +48,11 @@ void setup() {
 void loop() {
   M5.Lcd.setRotation(1);
   boolean success;
-  Buffer para armazenar a UID lida
+  //Buffer to UID
   uint8_t uid[] = { 0, 0, 0, 0, 0, 0, 0 };
-  Tamanho da UID (4 ou 7 bytes dependendo do tipo do cartao)
+ // Size UID (4 or 7 bytes depend on type card)
   uint8_t uidLength;
-  Wait for an ISO14443A type cards (Mifare, etc.).  When one is found
+ // Wait for ...
   'uid' will be populated with the UID, and uidLength will indicate
   if the uid is 4 bytes (Mifare Classic) or 7 bytes (Mifare Ultralight)
   success = nfc.readPassiveTargetID(PN532_MIFARE_ISO14443A, &uid[0], &uidLength);
@@ -68,7 +68,7 @@ void loop() {
       M5.Lcd.print( 0x); M5.Lcd.print(uid[i], HEX);
     }
     M5.Lcd.println();
-    Aguarda 1 segundo para continuar
+   // Aguarda 1 segundo para continuar
     delay(1000);
   
 
