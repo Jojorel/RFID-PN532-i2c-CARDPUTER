@@ -37,7 +37,7 @@ void setup() {
     M5.Lcd.print('.'); M5.Lcd.println((versiondata  8) & 0xFF, DEC);
   // Set the max number of retry attempts to read from a card
   // This prevents us from waiting forever for a card, which is
-   the default behaviour of the PN532.
+  // the default behaviour of the PN532.
     nfc.setPassiveActivationRetries(0xFF);
  //  configure board to read RFID tags
     nfc.SAMConfig();
@@ -54,7 +54,7 @@ void loop() {
   uint8_t uidLength;
  // Wait for ...
   'uid' will be populated with the UID, and uidLength will indicate
-  if the uid is 4 bytes (Mifare Classic) or 7 bytes (Mifare Ultralight)
+ // if the uid is 4 bytes (Mifare Classic) or 7 bytes (Mifare Ultralight)
   success = nfc.readPassiveTargetID(PN532_MIFARE_ISO14443A, &uid[0], &uidLength);
     M5.Lcd.setTextWrap(true,false);
     M5.Lcd.setCursor(0, 47);
